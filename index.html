@@ -2,87 +2,161 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora BSI</title>
+
   <style>
     body {
-      font-family: Arial;
-      max-width: 500px;
-      margin: auto;
-      padding: 20px;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 15px;
       background: #f5f5f5;
+      display: flex;
+      justify-content: center;
     }
-    h2 { text-align: center; }
-    label { display: block; margin-top: 10px; }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
     input, select {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-    }
-    button {
-      margin-top: 15px;
-      width: 100%;
       padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+      gap: 10px;
+    }
+
+    .checkbox input {
+      width: auto;
+      transform: scale(1.2);
+    }
+
+    .checkbox label {
+      margin: 0;
+      font-weight: normal;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
       background: #007BFF;
       color: white;
       border: none;
-      font-size: 16px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
     }
+
+    button:hover {
+      background: #0056b3;
+    }
+
     .resultado {
       margin-top: 20px;
       padding: 15px;
-      background: white;
-      border-radius: 5px;
+      background: #f9f9f9;
+      border-radius: 8px;
       text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      button {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<h2>Calculadora BSI</h2>
+<div class="container">
 
-<label>Idade</label>
-<input type="number" id="idade">
+  <h2>Calculadora BSI</h2>
 
-<label>IMC</label>
-<input type="number" step="0.1" id="imc">
+  <label>Idade</label>
+  <input type="number" id="idade">
 
-<label>VEF1 (% previsto)</label>
-<input type="number" id="fev1">
+  <label>IMC</label>
+  <input type="number" step="0.1" id="imc">
 
-<label>Internação últimos 2 anos</label>
-<select id="internacao">
-  <option value="nao">Não</option>
-  <option value="sim">Sim</option>
-</select>
+  <label>VEF1 (% previsto)</label>
+  <input type="number" id="fev1">
 
-<label>Exacerbações por ano</label>
-<input type="number" id="exacerbacoes">
+  <label>Internação últimos 2 anos</label>
+  <select id="internacao">
+    <option value="nao">Não</option>
+    <option value="sim">Sim</option>
+  </select>
 
-<label>MRC Dispneia</label>
-<select id="mrc">
-  <option value="0">0-2</option>
-  <option value="3">3</option>
-  <option value="4">4</option>
-</select>
+  <label>Exacerbações por ano</label>
+  <input type="number" id="exacerbacoes">
 
-<label>Colonização</label>
-<select id="colonizacao">
-  <option value="nenhuma">Nenhuma</option>
-  <option value="outras">Outras bactérias</option>
-  <option value="pseudomonas">Pseudomonas</option>
-</select>
+  <label>MRC Dispneia</label>
+  <select id="mrc">
+    <option value="0">0-2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+  </select>
 
-<label>Número de lobos acometidos</label>
-<input type="number" id="lobos">
+  <label>Colonização</label>
+  <select id="colonizacao">
+    <option value="nenhuma">Nenhuma</option>
+    <option value="outras">Outras bactérias</option>
+    <option value="pseudomonas">Pseudomonas</option>
+  </select>
 
-<label>
-  <input type="checkbox" style="margin-left: 20px; id="cistico"> Doença cística
-</label>
+  <label>Número de lobos acometidos</label>
+  <input type="number" id="lobos">
 
-<button onclick="calcular()">Calcular</button>
+  <div class="checkbox">
+    <input type="checkbox" id="cistico">
+    <label for="cistico">Doença cística</label>
+  </div>
 
-<div class="resultado" id="resultado"></div>
+  <button onclick="calcular()">Calcular</button>
+
+  <div class="resultado" id="resultado"></div>
+
+</div>
 
 <script>
 function calcular() {
@@ -93,7 +167,7 @@ function calcular() {
   let fev1 = Number(document.getElementById("fev1").value);
   let internacao = document.getElementById("internacao").value;
   let exacerbacoes = Number(document.getElementById("exacerbacoes").value);
-  let mrc = document.getElementById("mrc").value;
+  let mrc = Number(document.getElementById("mrc").value);
   let colonizacao = document.getElementById("colonizacao").value;
   let lobos = Number(document.getElementById("lobos").value);
   let cistico = document.getElementById("cistico").checked;
@@ -104,7 +178,7 @@ function calcular() {
   else if (idade >= 50) score += 2;
 
   // IMC
-  if (imc < 18.5) score += 2;
+  if (imc > 0 && imc < 18.5) score += 2;
 
   // VEF1
   if (fev1 < 30) score += 3;
@@ -118,8 +192,8 @@ function calcular() {
   if (exacerbacoes >= 3) score += 2;
 
   // MRC
-  if (mrc == 4) score += 3;
-  else if (mrc == 3) score += 2;
+  if (mrc === 4) score += 3;
+  else if (mrc === 3) score += 2;
 
   // Colonização
   if (colonizacao === "pseudomonas") score += 3;
